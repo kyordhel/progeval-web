@@ -26,24 +26,16 @@ def setup(app):
 		with app.app_context():
 			_db.create_all()
 			_db.session.commit()
+# end def
 
 
 
 def get_db():
 	return _db
+# end def
 
-"""
-CREATE TABLE Evaluators (
-	evlId      INTEGER PRIMARY KEY AUTOINCREMENT,
-	grpId      INTEGER NOT NULL,
-	evlName    TEXT NOT NULL,
-	evlFile    TEXT NOT NULL,
-	evlCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	evlActive  BOOLEAN NOT NULL DEFAULT TRUE,
-	evlExpires TIMESTAMP DEFAULT NULL,
-	FOREIGN KEY (grpId) REFERENCES Groups (grpId)
-);
-"""
+
+
 class Teacher(BaseModel):
 	__tablename__ = "Teachers"
 
@@ -113,14 +105,40 @@ class Evaluator(BaseModel):
 	# end def
 # end class
 
-# def close_db(e=None):
-# 	db = g.pop('db', None)
-# 	if db is not None:
-# 		db.close()
+
+
+def fetch_teacher(tid):
+	return Teacher.query.get(tid)
+#end def
 
 
 
-# def create_db():
-# 	db = get_db()
-# 	with open('schema.sql', 'r') as f:
-# 		db.executescript(f.read.decode('utf-8'))
+def fetch_teacher_by_username(username):
+	return Teacher.query.filter(
+		func.lower(Teacher.username) == func.lower(username)
+	).first()
+#end def
+
+
+
+def fetch_group(gid):
+	# return db.Group.query.get_or_404()
+	# return db.Group.query.filter_by(id=gid).first()
+	return Group.query.get(gid)
+#end def
+
+
+
+def fetch_groups():
+	groups = Group.query.order_by(
+		Group.subject,
+		Group.number
+	).all()
+	return groups
+#end def
+
+
+
+def fetch_evaluator(eid):
+	return Evaluator.query.get(eid)
+#end def

@@ -2,19 +2,19 @@
 {% extends "base.html" %}
 {% block content %}
 <form method="post" action="/eval" enctype="multipart/form-data"
-onsubmit="return doSubmit();">
+onsubmit="return doSubmit();" class="w600px">
 
-	<div class="row center">
+	<div class="row fillh center">
 		<label class="cell">Grupo: </label>
 		<div class="cell right">{{ '%02d' % group.number }}</div>
 	</div>
 
-	<div class="row center">
+	<div class="row fillh center">
 		<label class="cell">Curso: </label>
 		<div class="cell right">{{ group.subject }}</div>
 	</div>
 
-	<div class="row center">
+	<div class="row fillh center">
 		<label class="cell">Programa o asignación: </label>
 		<div class="cell fillh">
 			<select name="evaluator" id="evaluator" class="fillh" onchange="checkSubmit();" autocomplete="off">
@@ -27,7 +27,7 @@ onsubmit="return doSubmit();">
 		</div>
 	</div>
 
-	<div class="row center">
+	<div class="row fillh center">
 		<label class="cell">
 			Archivo fuente:
 		</label>
@@ -37,16 +37,16 @@ onsubmit="return doSubmit();">
 	</div>
 
 	<div id="codeinput">
-		<div class="row center">
+		<div class="row fillh center">
 			<label class="cell fillh">Código:</label>
 		</div>
-		<div class="row center">
+		<div class="row fillh center">
 			<div class="cell fillh">
 				<textarea name="codetext" id="codetext" class="codeinput fillh" placeholder="Pegue su código aquí" autocomplete="off" onchange="codeedit();"  oninput="codeedit();"></textarea>
 			</div>
 		</div>
 	</div>
-	<div class="row center">
+	<div class="row fillh center">
 		<div class="cell">
 			<input type="reset" id="btnreset" value="Limpiar" class="" />
 		</div>
@@ -85,7 +85,7 @@ function doSubmit(){
 	if(!checkForm()) return false;
 	document.getElementById('btnsubmit').disabled=true;
 	document.getElementById('btnreset').disabled=true;
-
+	return true;
 }
 
 function codeedit(){

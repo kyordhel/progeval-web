@@ -11,14 +11,24 @@ import subprocess as sp
 # Local packages required before flask
 from setup import *
 import db
+import lgnman
 
 # Flask and friends
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, redirect, request, session, \
+                  render_template, url_for
+from flask_login import login_required, current_user
+import flask
+import flask_login
 import werkzeug as wz
 
 # Create app
 app = Flask(__name__)
+set_secret_key(app)
 db.setup(app)
+lgnman.setup(app)
+
+# setup login manager
+
 
 with app.app_context():
     print(db.Group.query.all())
@@ -45,20 +55,25 @@ def execute(exefile, args=[]):
 
 @app.route('/')
 def root():
-    return render_template("index.html", groups=fetch_groups())
+    return render_template("index.html", groups=db.fetch_groups())
 #end def
 
 
 
 @app.route('/admin')
-    return render_template("index.html", groups=fetch_groups())
+# @login_required
+def admin():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    return render_template("admin/index.html", groups=db.fetch_groups())
 #end def
 
 
 
 @app.route('/group/<int:group_id>')
 def upload_code(group_id):
-    g = fetch_group(group_id)
+    g = db.fetch_group(group_id)
     try:
         return render_template("form.html", group=g)
     except:
@@ -77,7 +92,7 @@ def eval():
         if not 'evaluator' in request.form:
             return redirect("/", code=302)
         sr = 'Evaluator: {}\n'.format(request.form['evaluator'])
-        evaluator = fetch_evaluator(request.form['evaluator'])
+        evaluator = db.fetch_evaluator(request.form['evaluator'])
         if not evaluator:
             return redirect("/", code=302)
         specs = evaluator.file
@@ -109,6 +124,29 @@ def eval():
 
 # @app.route('/', methods = ['POST', 'GET'])
 # def application():
+#end def
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+@app.route('/admin/login', methods=['GET', 'POST'])
+def login():
+    if request.method != 'POST':
+        return render_template('admin/login.html')
+    if 'username' not in request.form or 'password' not in request.form:
+        return flask.abort(400)
+
+    user = lgnman.login(request.form['username'], request.form['password'])
+    if not user.is_authenticated:
+        return render_template('admin/login.html', lgnerr=True)
+
+    next = flask.request.args.get('next')
+    # is_safe_url should check if the url is safe for redirects.
+    # See http://flask.pocoo.org/snippets/62/ for an example.
+    if not lgnman.is_safe_url(next):
+        return flask.abort(400)
+
+    return redirect(next or url_for('admin'))
 #end def
 
 
@@ -175,30 +213,6 @@ def delete(file):
         return
     if os.path.exists(file):
         os.remove(file)
-#end def
-
-
-
-def fetch_groups():
-    groups = db.Group.query.order_by(
-        db.Group.subject,
-        db.Group.number
-    ).all()
-    return groups
-#end def
-
-
-
-def fetch_group(group_id):
-    # return db.Group.query.get_or_404()
-    # return db.Group.query.filter_by(group_id).first()
-    return db.Group.query.get(group_id)
-#end def
-
-
-
-def fetch_evaluator(eid):
-    return db.Evaluator.query.get(eid)
 #end def
 
 

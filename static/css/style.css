@@ -42,6 +42,30 @@ a:hover{
 	content:       "";
 }
 
+.w600px{
+	width:              600px;
+	max-width:          600px;
+}
+
+.table2c{
+	display:            flex;
+	flex-wrap:          wrap;
+}
+.table2c > *:nth-child(odd){
+	flex-basis:         100px;
+	/*width:              100px;*/
+	/*flex-basis:         0;*/
+	flex-grow:          1;
+}
+.table2c > *:nth-child(even){
+	flex-grow:          9;
+}
+
+.table2c > .right{
+	justify-self:       right;
+	flex:               0 1 0;
+}
+
 .cell{
 	word-wrap:          nowrap;
 	white-space:        nowrap;
@@ -49,8 +73,6 @@ a:hover{
 }
 
 .row{
-	width:              600px;
-	max-width:          600px;
 	margin:             0;
 	padding:            0;
 	display:            flex;
@@ -220,4 +242,12 @@ a:hover{
 
 .nav-bar > .right {
 	align-self:         flex-end;
+}
+
+.small{
+	font-size:          smaller;
+}
+
+.red{
+	color:              #900;
 }

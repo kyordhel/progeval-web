@@ -6,7 +6,7 @@
 	{% for group in groups %}
 		<button type="button" autofocus="false"
 		onclick="window.location.href='/group/{{group.id}}'">
-			<aside class="course-num">{{ group.id }}</aside>
+			<aside class="course-num">{{ group.number }}</aside>
 			<article class="course-info">
 			<div class="fillh">Curso: {{ group.subject }}</div>
 			<div class="fillh">Grupo: {{ '%02d' % group.number }}</div>

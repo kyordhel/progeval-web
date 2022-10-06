@@ -3,6 +3,13 @@
 <aside class="nav-bar">
 	<div>© 2022 — FI UNAM</div>
 	<!-- <div class="right"></div> -->
+
+{% if current_user.is_authenticated %}
+	<div>
+		¡Hola {{ current_user.name.split(' ')[0] }}!
+	</div>
+{% endif %}
+
 	<div>
 		<a href="/admin">
 			Acceso Profesor

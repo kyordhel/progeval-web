@@ -1,0 +1,63 @@
+{# templates/admin/login.html #}
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="/admin/login" onsubmit="return doSubmit();"
+style="max-width: 400px; margin: 0 auto;" class="table2c">
+
+	<label class="cell">Usuario: </label>
+	<div class="cell">
+		<input type="text" name="username" autocomplete="off"
+			id="username"  class="fillh"
+			onchange="checkSubmit();" oninput="checkSubmit();"/>
+	</div>
+
+	<label class="cell">Contraseña: </label>
+	<div class="cell">
+		<input type="password" name="password" autocomplete="off"
+			id="password"  class="fillh"
+			onchange="checkSubmit();" oninput="checkSubmit();"/>
+	</div>
+
+{% if lgnerr %}
+	<div class="cell"></div>
+	<div class="small red" style="text-align: center;">
+		Usuario o contraseña incorrectos
+	</div>
+{% endif %}
+
+	<div class="cell"></div>
+	<div class="cell right">
+		<input type="submit" disabled autocomplete="off" value="Entrar"
+			id="btnsubmit" class="right"/>
+	</div>
+</form>
+
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script language="javascript">
+<!--
+function checkForm(){
+	if(
+		(document.getElementById('username').value.trim().length < 3) ||
+		(document.getElementById('password').value.trim().length < 6)
+	) return false;
+	return true;
+}
+
+function checkSubmit(){
+	document.getElementById('btnsubmit').disabled = !checkForm();
+}
+
+function doSubmit(){
+	if(!checkForm()) return false;
+	document.getElementById('btnsubmit').disabled=true;
+	return true;
+}
+//-->
+</script>
+{% endblock scripts %}
