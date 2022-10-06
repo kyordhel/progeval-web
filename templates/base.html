@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Progeval</title>
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+{% include "_navigation.html" %}
+<aside class="banner">
+</aside>
+<div class="container">
+	<header>
+		<h1 class="pevaltitle">
+			Progeval
+		</h1>
+	</header>
+
+	{% block content %}
+	{% endblock content %}
+</div>
+
+</body>
+</html>
+{% block scripts %}
+{% endblock scripts %}

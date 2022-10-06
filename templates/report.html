@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Progeval</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+    <h3>Progeval</h3>
+    <p>Reporte generado.</p>
+
+    <p>Deberá ser redireccionado automaticamente en <span id="timeout" />segundos.</p>
+
+    <p>Si su navegador no carga automáticamente el reporte en segundos
+    	podrá acceder manualmente al archivo haciendo click
+    	<a href="{{ reporturi }}"
+    	>aquí</a></p>
+
+</body>
+<script language="javascript">
+<!--
+var timeout = 5;
+function countdown(){
+	document.getElementById('timeout').innerHTML = --timeout;
+	if(timeout <= 0)
+		window.location.href = "{{ reporturi }}";
+	setTimeout(countdown, 1000);
+}
+
+document.getElementById('timeout').innerHTML = timeout;
+setTimeout(countdown, 1000);
+
+//-->
+</script>

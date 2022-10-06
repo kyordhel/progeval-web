@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# But these directories
+!static/
+!templates/
+
+# And these files
+!.gitignore
+!index.wsgi
+!Pipfile
+!requirements.txt
+!run.sh
+!setup.sh
+
+# And these file types
+!*.py

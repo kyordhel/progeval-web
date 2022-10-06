@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# And these files
+!.gitignore
+
+# And these file types
+!*.gif
+!*.jpg
+!*.png
+!*.webp
+
+# Even if they are in subdirectories
+!*/

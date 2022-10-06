@@ -1,0 +1,121 @@
+{# templates/form.html #}
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="/eval" enctype="multipart/form-data"
+onsubmit="return doSubmit();">
+
+	<div class="row center">
+		<label class="cell">Grupo: </label>
+		<div class="cell right">{{ '%02d' % group.number }}</div>
+	</div>
+
+	<div class="row center">
+		<label class="cell">Curso: </label>
+		<div class="cell right">{{ group.subject }}</div>
+	</div>
+
+	<div class="row center">
+		<label class="cell">Programa o asignación: </label>
+		<div class="cell fillh">
+			<select name="evaluator" id="evaluator" class="fillh" onchange="checkSubmit();" autocomplete="off">
+				<option value="0" selected>Elija una opción…</option>
+				<!-- <option value="foo">Programa 1</option> -->
+			{% for e in group.evaluators %}
+				<option value="{{ e.id }}">{{ e.name }}</option>
+			{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="row center">
+		<label class="cell">
+			Archivo fuente:
+		</label>
+		<div class="cell fillh">
+			<input type="file" id="codefile" name="codefile" class="fillh" onchange="codefileset();" autocomplete="off" />
+		</div>
+	</div>
+
+	<div id="codeinput">
+		<div class="row center">
+			<label class="cell fillh">Código:</label>
+		</div>
+		<div class="row center">
+			<div class="cell fillh">
+				<textarea name="codetext" id="codetext" class="codeinput fillh" placeholder="Pegue su código aquí" autocomplete="off" onchange="codeedit();"  oninput="codeedit();"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="row center">
+		<div class="cell">
+			<input type="reset" id="btnreset" value="Limpiar" class="" />
+		</div>
+		<div class="cell right">
+			<input type="submit" id="btnsubmit" value="Enviar" class="right" disabled autocomplete="off" />
+		</div>
+	</div>
+</form>
+{% if results %}
+	<h3>Resultados del análisis</h3>
+	<pre>{{ results }}</pre>
+{% endif %}
+{% endblock content %}
+
+
+
+
+{% block scripts %}
+<script language="javascript">
+<!--
+function checkForm(){
+	if(document.getElementById('evaluator').value == "0")
+		return false;
+	if(
+		(document.getElementById('codetext').value.trim().length < 1) &&
+		(document.getElementById('codefile').value.trim().length < 1)
+	) return false;
+	return true;
+}
+
+function checkSubmit(){
+	document.getElementById('btnsubmit').disabled=!checkForm();
+}
+
+function doSubmit(){
+	if(!checkForm()) return false;
+	document.getElementById('btnsubmit').disabled=true;
+	document.getElementById('btnreset').disabled=true;
+
+}
+
+function codeedit(){
+	var cf = document.getElementById('codefile');
+	var ct = document.getElementById('codetext');
+	if(ct.value.trim().length > 0){
+		cf.value="";
+		cf.disabled=true;
+	}
+	else
+		cf.disabled=false;
+	checkSubmit();
+}
+
+function codefileset(){
+	var ci = document.getElementById('codeinput');
+	var cf = document.getElementById('codefile');
+	var ct = document.getElementById('codetext');
+	if(cf.value.trim().length > 0){
+		ct.value="";
+		ct.disabled=true;
+		ci.style.display = 'none'
+	}
+	else{
+		ct.disabled=false;
+		ci.visible=true;
+		ci.style.display = 'block'
+	}
+	checkSubmit();
+}
+//-->
+</script>
+{% endblock scripts %}

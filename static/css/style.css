@@ -1,0 +1,223 @@
+*{
+	box-sizing:         border-box;
+	font-family:        Helvetica, sans-serif;
+}
+
+body{
+	margin:             0;
+	padding:            0;
+	overflow:           hidden;
+	background-color:   rgba(0,0,0,0.1);
+}
+
+a{
+	color:              inherit;
+	text-decoration:    none;
+}
+
+a:hover{
+	color:              inherit;
+	text-decoration:    underline;
+	filter:             brightness(1.25);
+}
+
+.codeinput{
+	border:             1px solid gray;
+	min-height:         300px;
+	overflow:           auto;
+	padding:            2px;
+	resize:             both;
+	font-size:          10px;
+	color:              black;
+	tab-size:           4;
+	font-family:        monospace;
+}
+
+[contenteditable=true]:empty::before {
+	content:            attr(placeholder);
+	color:              #666;
+	font-style:         italic;
+}
+[contenteditable=true]:focus:empty::before {
+	content:       "";
+}
+
+.cell{
+	word-wrap:          nowrap;
+	white-space:        nowrap;
+	margin:             4px 4px;
+}
+
+.row{
+	width:              600px;
+	max-width:          600px;
+	margin:             0;
+	padding:            0;
+	display:            flex;
+	align-items:        baseline;
+}
+
+.right{
+	margin-right:       0;
+	margin-left:        auto;
+}
+
+.fillh{
+	width:              100%;
+}
+
+.nomargin{
+	margin:             0;
+}
+
+.center{
+	margin:             0 auto;
+}
+
+.banner{
+	margin:             0;
+	padding:            0;
+	width:              100%;
+	height:             177px;
+	position:           fixed;
+	top:                0;
+	left:               0;
+	right:              0;
+	z-index:            -1;
+	/*background-color:   lightblue;*/
+	/*background-image:   url("../img/fractal.png"),*/
+	                    /*linear-gradient(to bottom, black, rgba(0,0,0,0.5));*/
+	background-color:   #2F4F4F;
+	background-image:   url("../img/fractal.png");
+	background-repeat:  no-repeat;
+	background-size:    cover;
+	background-position:top;
+}
+
+.pevaltitle{
+	text-align:         center;
+	font-family:        Lucida Console, monospace;
+	font-size:          5em;
+}
+
+.container{
+	margin:             0 auto;
+	padding:            125px 0;
+	min-width:          600px;
+	max-width:          800px;
+	/*background-color:   lightblue;*/
+
+}
+
+.courses-container{
+	margin:             25px;
+	display:            flex;
+	flex-wrap:          wrap;
+	/*justify-content:    center;*/
+	justify-content:    space-evenly;
+	/*background-color:   DodgerBlue;*/
+	/*grid-template-columns:
+	                    repeat(2, 1fr);
+	gap:                10px*/
+}
+
+.courses-container > button{
+	background-color:   #f1f1f1;
+	flex:               0 0 200px;
+	margin:             10px;
+	width:              200px;
+	height:             200px;
+	padding:            0;
+	border:             5px double DarkGreen;
+	border-radius:      15px;
+	background-color:   WhiteSmoke;
+	box-shadow:         5px 5px 10px black;
+	transition:         transform .2s; /* Animation */
+	position:           relative;
+}
+
+.courses-container > button:hover{
+	transform:          scale(1.05);
+	background-color:   white;
+	box-shadow:         7px 7px 5px black;
+	/*border:             2px solid LightGreen;*/
+}
+
+.course-num{
+	color:              #999;
+	font-size:          160px;
+	position:           absolute;
+	top:                0;
+	bottom:             0;
+	left:               0;
+	right:              0;
+	margin:             auto;
+	padding:            0;
+	text-align:         center;
+	z-index:            0;
+}
+.course-info{
+	color:              white;
+	text-align:         left;
+	padding:            10px 5px 5px 5px;
+	width:              100%;
+	position:           absolute;
+	bottom:             0;
+	border-radius:      0 0 5px 5px;
+	background-color:   rgba(0, 100, 0, 0.8);  /* DarkGreen = #006400 */
+
+}
+
+.zoom{
+	transition:         transform 0.2s; /* Animation */
+}
+
+.zoom:hover{
+	transform:          scale(1.01);
+}
+
+.nav-bar{
+	margin:             0;
+	padding:            0;
+	width:              100%;
+	height:             1.5em;
+	position:           fixed;
+	top:                0;
+	left:               0;
+	right:              0;
+	z-index:            2;
+	background-color:   #800000;
+
+	display:            flex;
+	flex-wrap:          nowrap;
+	justify-content:    space-between;
+	align-items:        baseline;
+	/*align-items:        center;*/
+	line-height:        1.5em;
+	/*background-color:   #2F4F4F;*/
+	/*background-color:   SteelBlue;*/
+	/*background-color:   #191970;*/
+	/*opacity:            80%;*/
+}
+
+.nav-bar > * {
+	height:             inherit;
+	line-height:        inherit;
+	color:              #CCC;
+	padding:            0 0.5em;
+	padding-top:        0.1em;
+	/*font-size:          1vh;*/
+	/*font-variant: small-caps;*/
+}
+
+.nav-bar > .left {
+	align-self:         flex-start;
+}
+
+.nav-bar > .center {
+	align-self:         center;
+}
+
+.nav-bar > .right {
+	align-self:         flex-end;
+}

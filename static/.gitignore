@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# But these files and directories
+!.gitignore
+!css/
+!img/
+!js/
