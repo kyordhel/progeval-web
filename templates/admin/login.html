@@ -6,28 +6,31 @@
 style="max-width: 400px; margin: 0 auto;" class="table2c">
 
 	<label class="cell">Usuario: </label>
-	<div class="cell">
+	<div class="cell-wide">
 		<input type="text" name="username" autocomplete="off"
 			id="username"  class="fillh"
 			onchange="checkSubmit();" oninput="checkSubmit();"/>
 	</div>
+	<div class=break></div>
 
 	<label class="cell">Contraseña: </label>
-	<div class="cell">
+	<div class="cell-wide">
 		<input type="password" name="password" autocomplete="off"
 			id="password"  class="fillh"
 			onchange="checkSubmit();" oninput="checkSubmit();"/>
 	</div>
+	<div class=break></div>
 
 {% if lgnerr %}
 	<div class="cell"></div>
 	<div class="small red" style="text-align: center;">
 		Usuario o contraseña incorrectos
 	</div>
+	<div class=break></div>
 {% endif %}
 
-	<div class="cell"></div>
-	<div class="cell right">
+	<div class="left"></div>
+	<div class="right">
 		<input type="submit" disabled autocomplete="off" value="Entrar"
 			id="btnsubmit" class="right"/>
 	</div>

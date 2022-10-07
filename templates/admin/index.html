@@ -2,6 +2,51 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="w600px center flex" style="margin-bottom: 1em">
+	<div class="right">
+		<button class="fancy" onclick="window.location.href='admin/new'">
+			Nuevo
+		</button>
+	</div>
+</div>
 
+<table class="w600px center fancy" border="0" cellpadding="2" cellspacing="0">
+	<thead>
+		<tr>
+			<th>Evaluador</th>
+			<th>Asignatura</th>
+			<th>Grupo</th>
+			<th>Habilitado</th>
+			<th>Expira</th>
+			<th>&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for e in evaluators %}
+		<tr>
+			<td class="left">{{ e.name }}</td>
+			<td>{{ e.group.subject }}</td>
+			<td>{{ e.group.number }}</td>
+			<td style="padding: 0.25em 0 0 0">
+				{% if e.active %}
+				<img src="static/img/tick.png" style="width: 1.2em">
+				{% else %}
+				<img src="static/img/cross.png" style="width: 1.2em">
+				{% endif %}
+			</td>
+			<td>{{ e.expires }}</td>
+			<td class="right">
+				<button class="imagebutton">
+					<img src="static/img/edit.png" style="width: 1.4em">
+				</button>
+				&nbsp;
+				<button class="imagebutton">
+					<img src="static/img/delete.png" style="width: 1.4em">
+				</button>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
 
 {% endblock content %}

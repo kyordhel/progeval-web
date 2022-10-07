@@ -70,7 +70,8 @@ class Group(BaseModel):
 
 	teacher   = relationship('Teacher', back_populates='groups')
 	# teacher   = relationship('Teacher', foreign_keys=[teacherId], back_populates='groups')
-	evaluators= relationship('Evaluator', backref='group', lazy=True)
+	evaluators= relationship('Evaluator', back_populates='group')
+	# evaluators= relationship('Evaluator', backref='group', lazy=True)
 
 	def __str__(self):
 		return f'{self.number}'
@@ -95,6 +96,8 @@ class Evaluator(BaseModel):
 							server_default=func.now())
 	active    = Column(Boolean,                     nullable=False)
 	expires   = Column(DateTime(timezone=True),     nullable=True)
+
+	group     = relationship('Group', back_populates='evaluators')
 
 	def __str__(self):
 		return f'{self.name}'
@@ -129,11 +132,17 @@ def fetch_group(gid):
 
 
 
-def fetch_groups():
-	groups = Group.query.order_by(
-		Group.subject,
-		Group.number
-	).all()
+def fetch_groups(tid=None):
+	if tid:
+		groups = Group.query.order_by(
+			Group.subject,
+			Group.number
+		).filter(Group.teacherId == tid).all()
+	else:
+		groups = Group.query.order_by(
+			Group.subject,
+			Group.number
+		).all()
 	return groups
 #end def
 
@@ -141,4 +150,21 @@ def fetch_groups():
 
 def fetch_evaluator(eid):
 	return Evaluator.query.get(eid)
+#end def
+
+
+
+def fetch_evaluators(tid):
+	return Evaluator.query\
+		.join(Evaluator.group)\
+		.join(Group.teacher)\
+		.filter(
+			Teacher.id==tid
+		)\
+		.order_by(
+			Group.subject,
+			Group.number,
+			Evaluator.created
+		)\
+		.all()
 #end def

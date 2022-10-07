@@ -2,44 +2,40 @@
 {% extends "base.html" %}
 {% block content %}
 <form method="post" action="/eval" enctype="multipart/form-data"
-onsubmit="return doSubmit();" class="w600px">
+onsubmit="return doSubmit();" class="table2c w600px center">
 
-	<div class="row fillh center">
-		<label class="cell">Grupo: </label>
-		<div class="cell right">{{ '%02d' % group.number }}</div>
+	<label class="cell">Grupo: </label>
+	<div class="cell-wide">{{ '%02d' % group.number }}</div>
+	<div class="break"></div>
+
+	<label class="cell">Curso: </label>
+	<div class="cell-wide">{{ group.subject }}</div>
+	<div class="break"></div>
+
+	<label class="cell">Programa o asignación: </label>
+	<div class="cell-wide">
+		<select name="evaluator" id="evaluator" class="fillh" onchange="checkSubmit();" autocomplete="off">
+			<option value="0" selected>Elija una opción…</option>
+			<!-- <option value="foo">Programa 1</option> -->
+		{% for e in group.evaluators %}
+			<option value="{{ e.id }}">{{ e.name }}</option>
+		{% endfor %}
+		</select>
 	</div>
+	<div class="break"></div>
 
-	<div class="row fillh center">
-		<label class="cell">Curso: </label>
-		<div class="cell right">{{ group.subject }}</div>
+	<label class="cell">
+		Archivo fuente:
+	</label>
+	<div class="cell-wide">
+		<input type="file" id="codefile" name="codefile" class="fillh"
+		accept=".c,.cpp,.py,.h,.hpp,text/x-c,text/x-phyton,text/plain"
+		onchange="codefileset();" autocomplete="off" />
 	</div>
+	<div class="break"></div>
 
-	<div class="row fillh center">
-		<label class="cell">Programa o asignación: </label>
-		<div class="cell fillh">
-			<select name="evaluator" id="evaluator" class="fillh" onchange="checkSubmit();" autocomplete="off">
-				<option value="0" selected>Elija una opción…</option>
-				<!-- <option value="foo">Programa 1</option> -->
-			{% for e in group.evaluators %}
-				<option value="{{ e.id }}">{{ e.name }}</option>
-			{% endfor %}
-			</select>
-		</div>
-	</div>
-
-	<div class="row fillh center">
-		<label class="cell">
-			Archivo fuente:
-		</label>
-		<div class="cell fillh">
-			<input type="file" id="codefile" name="codefile" class="fillh" onchange="codefileset();" autocomplete="off" />
-		</div>
-	</div>
-
-	<div id="codeinput">
-		<div class="row fillh center">
-			<label class="cell fillh">Código:</label>
-		</div>
+	<div id="codeinput" class="break">
+		<label class="cell fillh">Código:</label>
 		<div class="row fillh center">
 			<div class="cell fillh">
 				<textarea name="codetext" id="codetext" class="codeinput fillh" placeholder="Pegue su código aquí" autocomplete="off" onchange="codeedit();"  oninput="codeedit();"></textarea>

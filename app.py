@@ -66,7 +66,60 @@ def admin():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
-    return render_template("admin/index.html", groups=db.fetch_groups())
+    e = db.fetch_evaluators(current_user.tid)
+    return render_template("admin/index.html", evaluators=e)
+#end def
+
+
+
+@app.route('/admin/new', methods = ['POST', 'GET'])
+# @login_required
+def upload_specs():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    if request.method != 'POST':
+        g = db.fetch_groups(current_user.tid)
+        return render_template("admin/specform.html", groups=g)
+        return redirect("/", code=302)
+
+    required = [ 'name', 'group', 'enabled' ]
+    for r in required:
+        if r not in request.form:
+            print(f'{r} not in form')
+            return flask.abort(400)
+    if len(request.files) < 1 or 'specfile' not in request.files:
+        print(f'specfile not in form')
+        print(f'len(request.files): {len(request.files)}')
+        return flask.abort(400)
+
+    f = request.files['specfile']
+    path = os.path.join(SPECSF_FOLDER, make_random_name('.xml'))
+    f.save(path)
+
+    e = db.Evaluator(
+        name=request.form['name'],
+        groupId=int(request.form['group']),
+        file=path,
+        active=bool(request.form['enabled']))
+    db.get_db().session.add(e)
+    db.get_db().session.commit()
+
+    return redirect(url_for('admin'))
+    # return render_template("admin/specform.html")
+#end def
+
+
+
+@app.route('/admin/edit/<int:eid>', methods = ['POST', 'GET'])
+# @login_required
+def edit_specs(eid):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    if request.method != 'POST':
+        g = db.fetch_groups(current_user.tid)
+        return render_template("admin/specform.html", groups=g)
+
+    return render_template("admin/specform.html")
 #end def
 
 
@@ -213,6 +266,18 @@ def delete(file):
         return
     if os.path.exists(file):
         os.remove(file)
+#end def
+
+
+
+def make_random_name(suffix):
+    import hashlib, time
+    sha1 = hashlib.sha1()
+
+    sha1.update('File'.encode('utf-8'))
+    sha1.update(str(time.time()).encode('utf-8'))
+    sha1.update(suffix.encode('utf-8'))
+    return sha1.hexdigest() + suffix
 #end def
 
 

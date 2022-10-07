@@ -1,0 +1,112 @@
+{# templates/specform.html #}
+{% extends "base.html" %}
+{% block content %}
+<form method="post" enctype="multipart/form-data"
+class="w600px center table2c"
+onsubmit="return doSubmit();">
+	<div class="small break" style="text-align: center;">
+		Los campos marcados con * son obligatorios
+	</div>
+	<div class=break>&nbsp;</div>
+	<!-- <div class=break></div> -->
+
+	<label class="cell">Nombre: *</label>
+	<div class="cell-wide">
+		<input type="text" name="name"
+			id="name"  class="fillh"
+			onchange="checkSubmit();" oninput="checkSubmit();"/>
+	</div>
+	<div class=break></div>
+
+	<label class="cell">Grupo: *</label>
+	<div class="cell-wide">
+		<select name="group" id="group"  class="fillh"
+			onchange="checkSubmit();"/>
+			{% if groups|length != 1 %}
+			<option value="-1" selected>Elija una opción…</option>
+			{% endif %}
+
+			{% for g in groups %}
+				<option value="{{ g.id }}"
+					{% if groups|length == 1 %}'selected'{% endif %}
+					>{{ g.subject }} - G{{ '%02d' % g.number }}
+				</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class=break></div>
+
+	<label class="cell">Estado: *</label>
+	<div class="cell-wide">
+		<select name="enabled" id="enabled" class="fillh"
+			onchange="checkSubmit();"/>
+			<option value="True" selected>Habilitado</option>
+			<option value="False">Deshabilitado</option>
+		</select>
+	</div>
+	<div class=break></div>
+
+	<label class="cell">Caducidad: </label>
+	<div class="cell-wide">
+		<input type="date" name="expire"
+			id="expire"  class="fillh"
+			onchange="checkSubmit();"/>
+		</select>
+	</div>
+	<div class=break></div>
+
+	<label class="cell">Especificación: *</label>
+	<div class="cell-wide">
+		<input type="file" name="specfile" accept=".xml,text/xml"
+			id="specfile"  class="fillh"
+			onchange="checkSubmit();"/>
+		</select>
+	</div>
+	<div class=break></div>
+
+{% if lgnerr %}
+	<div class="cell"></div>
+	<div class="small red" style="text-align: center;">
+		Usuario o contraseña incorrectos
+	</div>
+{% endif %}
+
+	<div class="left">
+		<input type="reset" autocomplete="off" value="Reiniciar"
+			id="btnreset" class="left"/>
+	</div>
+	<div class="right">
+		<input type="submit" disabled autocomplete="off" value="Crear"
+			id="btnsubmit" class="right"/>
+	</div>
+</form>
+
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script language="javascript">
+<!--
+function checkForm(){
+	if(
+		(document.getElementById('name').value.trim().length < 3) ||
+		(document.getElementById('group').value == -1) ||
+		(document.getElementById('specfile').files.length < 1)
+	) return false;
+	return true;
+}
+
+function checkSubmit(){
+	document.getElementById('btnsubmit').disabled = !checkForm();
+}
+
+function doSubmit(){
+	if(!checkForm()) return false;
+	document.getElementById('btnsubmit').disabled=true;
+	return true;
+}
+//-->
+</script>
+{% endblock scripts %}

@@ -42,6 +42,11 @@ a:hover{
 	content:       "";
 }
 
+.w800px{
+	width:              800px;
+	max-width:          800px;
+}
+
 .w600px{
 	width:              600px;
 	max-width:          600px;
@@ -51,15 +56,34 @@ a:hover{
 	display:            flex;
 	flex-wrap:          wrap;
 }
-.table2c > *:nth-child(odd){
-	flex-basis:         100px;
+
+.table2c > .cell{
+	/*flex-basis:         0;*/
+	/*flex-grow:          1;*/
+	flex:               1 0 0;
+}
+
+.table2c > .cell-wide{
+	/*flex-grow:          4;*/
+	flex:               2.5 0 0;
+}
+
+.table2c > .break{
+	margin:             0;
+	padding:            0;
+	/*width:             100%;*/
+	flex-basis:         100%;
+}
+
+/*.table2c > *:nth-child(odd){*/
+	/*flex-basis:         100px;*/
 	/*width:              100px;*/
 	/*flex-basis:         0;*/
-	flex-grow:          1;
-}
+	/*flex-grow:          1;*/
+}/*
 .table2c > *:nth-child(even){
 	flex-grow:          9;
-}
+}*/
 
 .table2c > .right{
 	justify-self:       right;
@@ -79,17 +103,30 @@ a:hover{
 	align-items:        baseline;
 }
 
+.flex{
+	display:            flex;
+}
+
 .right{
 	margin-right:       0;
 	margin-left:        auto;
+	flex:               0 1 0;
 }
 
 .fillh{
 	width:              100%;
 }
 
+.fillv{
+	height:             100%;
+}
+
 .nomargin{
 	margin:             0;
+}
+
+.nopadding{
+	padding:            0;
 }
 
 .center{
@@ -117,18 +154,32 @@ a:hover{
 }
 
 .pevaltitle{
+	margin:             0;
+	margin-bottom:      20px;
 	text-align:         center;
 	font-family:        Lucida Console, monospace;
 	font-size:          5em;
 }
 
+.scrollable{
+	margin:             0;
+	padding:            0;
+	position:           absolute;
+	top:                177px;
+	bottom:             0;
+	width:              100%;
+	/*height:             calc(100% - 177px);*/
+	overflow-x:         hidden;
+	overflow-y:         auto;
+}
+
 .container{
 	margin:             0 auto;
-	padding:            125px 0;
+	/*padding:            125px 0;*/
+	padding:            0;
 	min-width:          600px;
 	max-width:          800px;
-	/*background-color:   lightblue;*/
-
+	/*overflow-y:         visible;*/
 }
 
 .courses-container{
@@ -250,4 +301,80 @@ a:hover{
 
 .red{
 	color:              #900;
+}
+
+.imagebutton{
+	background:         none;
+	margin:             0;
+	padding:            0;
+	border:             none;
+	cursor:             pointer;
+}
+
+table.fancy thead{
+	color:              #F0F0F0;
+	background-color:   #800;
+}
+
+table.fancy th{
+	text-align:         center;
+	flex:               0 1 0;
+	padding:            0.25em 0.5em;
+	font-size:          large;
+}
+
+table.fancy td{
+	padding:            0.4em 0.5em 0.25em 0.5em;
+	text-align:         center;
+	vertical-align:     middle;
+}
+
+table.fancy tbody > tr:nth-child(odd){
+	background-color:   #FFF;
+
+}
+
+table.fancy tbody > tr:nth-child(even){
+	background-color:   #CCC;
+
+}
+
+table.fancy tbody > tr:hover{
+	background-color:   #CFC;
+	/*filter:             brightness(1.25);*/
+}
+
+table.fancy .left{
+	text-align:         left;
+}
+
+table.fancy .center{
+	text-align:         center;
+}
+
+table.fancy .right{
+	text-align:         right;
+}
+
+button.fancy{
+	transition-duration:0.4s;
+	color:              white;
+	background-color:   #800;
+	padding:            4px 16px;;
+	/*font-size:          16px;*/
+	font-size:          larger;
+	border:             none;
+	box-shadow:         2px 2px 2px black;
+	border:             2px solid #800;
+
+}
+
+button.fancy:hover{
+	color:              #800;
+	background-color:   white;
+	/*border:             2px solid #800;*/
+}
+
+button.fancy:active{
+	box-shadow:         1px 1px 2px black;
 }
