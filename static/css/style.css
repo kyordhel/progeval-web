@@ -75,16 +75,6 @@ a:hover{
 	flex-basis:         100%;
 }
 
-/*.table2c > *:nth-child(odd){*/
-	/*flex-basis:         100px;*/
-	/*width:              100px;*/
-	/*flex-basis:         0;*/
-	/*flex-grow:          1;*/
-}/*
-.table2c > *:nth-child(even){
-	flex-grow:          9;
-}*/
-
 .table2c > .right{
 	justify-self:       right;
 	flex:               0 1 0;
@@ -378,3 +368,4 @@ button.fancy:hover{
 button.fancy:active{
 	box-shadow:         1px 1px 2px black;
 }
+

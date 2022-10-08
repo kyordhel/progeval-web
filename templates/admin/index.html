@@ -4,7 +4,7 @@
 
 <div class="w600px center flex" style="margin-bottom: 1em">
 	<div class="right">
-		<button class="fancy" onclick="window.location.href='admin/new'">
+		<button class="fancy" onclick="window.location.href='admin/evaluator/new'">
 			Nuevo
 		</button>
 	</div>
@@ -28,19 +28,29 @@
 			<td>{{ e.group.subject }}</td>
 			<td>{{ e.group.number }}</td>
 			<td style="padding: 0.25em 0 0 0">
+				<button class="imagebutton"
+					onclick="toggleactive({{ e.id }});">
 				{% if e.active %}
-				<img src="static/img/tick.png" style="width: 1.2em">
+					<img src="static/img/tick.png" style="width: 1.2em">
 				{% else %}
-				<img src="static/img/cross.png" style="width: 1.2em">
+					<img src="static/img/cross.png" style="width: 1.2em">
 				{% endif %}
+				</button>
 			</td>
 			<td>{{ e.expires }}</td>
 			<td class="right">
-				<button class="imagebutton">
+				<button class="imagebutton"
+					onclick="downloadxml({{ e.id }});">
+					<img src="static/img/download.png" style="width: 1.4em">
+				</button>
+				&nbsp;
+				<button class="imagebutton"
+					onclick="editevaluator({{ e.id }});">
 					<img src="static/img/edit.png" style="width: 1.4em">
 				</button>
 				&nbsp;
-				<button class="imagebutton">
+				<button class="imagebutton"
+					onclick="showdeletedialog({{ e.id }});">
 					<img src="static/img/delete.png" style="width: 1.4em">
 				</button>
 			</td>
@@ -48,5 +58,44 @@
 	{% endfor %}
 	</tbody>
 </table>
-
 {% endblock content %}
+
+
+
+{% block scripts %}
+<script language="javascript">
+<!--
+const evaluators={
+{% for e in evaluators %}
+	{{ e.id }} : {
+		"id"    : "{{ e.id }}",
+		"name"  : "{{ e.name }}",
+		"group" : "{{ '%d de %s' % (e.group.number, e.group.subject) }}",
+	},
+{% endfor %}
+};
+
+function showdeletedialog(eid){
+	e = evaluators[eid];
+	modal.caption = `Eliminar ${ evaluators[eid].name }`;
+	modal.text = `¿Confirma que desea eliminar el evaluador ${e.name} para el grupo ${e.group}`;
+	modal.onyes = function(){
+		window.location.href=`admin/evaluator/${eid}/delete`
+	};
+	modal.showyn();
+}
+
+function toggleactive(eid){
+	window.location.href=`admin/evaluator/${eid}/toggle`;
+}
+
+function downloadxml(eid){
+	window.location.href=`admin/evaluator/${eid}/download`;
+}
+
+function editevaluator(eid){
+	window.location.href=`admin/evaluator/${eid}/edit`;
+}
+//-->
+</script>
+{% endblock scripts %}

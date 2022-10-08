@@ -1,7 +1,8 @@
 import os
 from setup import HERE
 # from flask import current_app, g
-from sqlalchemy import Column, ForeignKey, Boolean, DateTime, Integer, \
+from sqlalchemy import Column, ForeignKey, UniqueConstraint, \
+                       Boolean, DateTime, Integer, \
                        String, Text
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
@@ -73,6 +74,10 @@ class Group(BaseModel):
 	evaluators= relationship('Evaluator', back_populates='group')
 	# evaluators= relationship('Evaluator', backref='group', lazy=True)
 
+	__table_args__ = (
+		UniqueConstraint('tchId', 'grpSubject', 'grpNumber', name='teacher_subject_group_uc'),
+	)
+
 	def __str__(self):
 		return f'{self.number}'
 	# end def
@@ -98,6 +103,10 @@ class Evaluator(BaseModel):
 	expires   = Column(DateTime(timezone=True),     nullable=True)
 
 	group     = relationship('Group', back_populates='evaluators')
+
+	__table_args__ = (
+		UniqueConstraint('groupId', 'name', name='group_eval_uc'),
+	)
 
 	def __str__(self):
 		return f'{self.name}'

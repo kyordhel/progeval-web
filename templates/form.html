@@ -18,7 +18,9 @@ onsubmit="return doSubmit();" class="table2c w600px center">
 			<option value="0" selected>Elija una opción…</option>
 			<!-- <option value="foo">Programa 1</option> -->
 		{% for e in group.evaluators %}
+			{% if e.active %}
 			<option value="{{ e.id }}">{{ e.name }}</option>
+			{% endif %}
 		{% endfor %}
 		</select>
 	</div>

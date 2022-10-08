@@ -1,6 +1,17 @@
 {# templates/specform.html #}
 {% extends "base.html" %}
 {% block content %}
+
+{% if evaluator %}
+<div class="w600px center flex" style="margin-bottom: 1em">
+	<div class="left">
+		<button class="fancy" onclick="window.location.href='admin/'">
+			Volver
+		</button>
+	</div>
+</div>
+{% endif %}
+
 <form method="post" enctype="multipart/form-data"
 class="w600px center table2c"
 onsubmit="return doSubmit();">
@@ -14,6 +25,9 @@ onsubmit="return doSubmit();">
 	<div class="cell-wide">
 		<input type="text" name="name"
 			id="name"  class="fillh"
+			{% if evaluator %}
+			value="{{evaluator.name}}"
+			{% endif %}
 			onchange="checkSubmit();" oninput="checkSubmit();"/>
 	</div>
 	<div class=break></div>
@@ -23,13 +37,12 @@ onsubmit="return doSubmit();">
 		<select name="group" id="group"  class="fillh"
 			onchange="checkSubmit();"/>
 			{% if groups|length != 1 %}
-			<option value="-1" selected>Elija una opción…</option>
+			<option value="-1" {% if not evaluator %}selected{% endif %}>Elija una opción…</option>
 			{% endif %}
-
 			{% for g in groups %}
 				<option value="{{ g.id }}"
-					{% if groups|length == 1 %}'selected'{% endif %}
-					>{{ g.subject }} - G{{ '%02d' % g.number }}
+					{% if groups|length == 1 or (evaluator and g.id == evaluator.groupId )%}selected{% endif %}>
+					{{ g.subject }} - G{{ '%02d' % g.number }}
 				</option>
 			{% endfor %}
 		</select>
@@ -40,12 +53,16 @@ onsubmit="return doSubmit();">
 	<div class="cell-wide">
 		<select name="enabled" id="enabled" class="fillh"
 			onchange="checkSubmit();"/>
-			<option value="True" selected>Habilitado</option>
-			<option value="False">Deshabilitado</option>
+			<option value="True"
+			{%if not evaluator or evaluator.active %}selected{% endif %}>Habilitado</option>
+			<option value="False"
+			{% if evaluator and not evaluator.active %}selected{% endif %}>
+				Deshabilitado</option>
 		</select>
 	</div>
 	<div class=break></div>
 
+<!--
 	<label class="cell">Caducidad: </label>
 	<div class="cell-wide">
 		<input type="date" name="expire"
@@ -54,8 +71,11 @@ onsubmit="return doSubmit();">
 		</select>
 	</div>
 	<div class=break></div>
+//-->
 
-	<label class="cell">Especificación: *</label>
+	<label class="cell">
+		Especificación: {% if not evaluator %}*{% endif %}
+	</label>
 	<div class="cell-wide">
 		<input type="file" name="specfile" accept=".xml,text/xml"
 			id="specfile"  class="fillh"
@@ -76,7 +96,12 @@ onsubmit="return doSubmit();">
 			id="btnreset" class="left"/>
 	</div>
 	<div class="right">
-		<input type="submit" disabled autocomplete="off" value="Crear"
+		<input type="submit" disabled autocomplete="off"
+		{% if evaluator %}
+		value="Guardar"
+		{% else %}
+		value="Crear"
+		{% endif %}
 			id="btnsubmit" class="right"/>
 	</div>
 </form>
@@ -91,9 +116,11 @@ onsubmit="return doSubmit();">
 <!--
 function checkForm(){
 	if(
-		(document.getElementById('name').value.trim().length < 3) ||
-		(document.getElementById('group').value == -1) ||
-		(document.getElementById('specfile').files.length < 1)
+		(document.getElementById('name').value.trim().length < 3)
+		|| (document.getElementById('group').value == -1)
+{% if not evaluator %}
+		|| (document.getElementById('specfile').files.length < 1)
+{% endif %}
 	) return false;
 	return true;
 }
@@ -108,5 +135,8 @@ function doSubmit(){
 	return true;
 }
 //-->
+{% if evaluator %}
+checkSubmit();
+{% endif %}
 </script>
 {% endblock scripts %}
