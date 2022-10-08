@@ -4,10 +4,10 @@
 
 if [ ! -d "env" ]
 then
-	virtualenv env
+	virtualenv -p python3 env
 fi
 source env/bin/activate
-pip install
+python3 -m pip install -r requirements.txt
 
 chmod g+s .
 mkdir -p \

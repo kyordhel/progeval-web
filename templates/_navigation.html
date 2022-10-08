@@ -11,8 +11,13 @@
 {% endif %}
 
 	<div>
+{% if not current_user.is_authenticated %}
 		<a href="/admin">
 			Acceso Profesor
+{% else %}
+		<a href="/admin/logout">
+			Cerrar sesión
+{% endif %}
 		</a>
 	</div>
 </aside>
