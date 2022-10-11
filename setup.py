@@ -24,7 +24,8 @@ def set_secret_key(app):
 	if not os.path.exists(spath):
 		import hashlib, time
 		sha1 = hashlib.sha1()
-		sha1.update('Progeval' + str(time.time()))
+		sha1.update('Progeval'.encode('utf-8'))
+		sha1.update(str(time.time()).encode('utf-8'))
 		with open(spath, 'w') as f:
 			f.write(sha1.hexdigest())
 			f.write('\n')
