@@ -4,10 +4,11 @@
 
 if [ ! -d "env" ]
 then
-	virtualenv -p python3 env
+	virtualenv -p python3.8 env
 fi
 source env/bin/activate
-python3 -m pip install -r requirements.txt
+pip install flask flask-login
+pip install -r requirements.txt
 
 chmod g+s .
 mkdir -p \
