@@ -8,6 +8,7 @@
 # And these files
 !.gitignore
 !index.wsgi
+!LICENSE
 !Pipfile
 !requirements.txt
 !run.sh
