@@ -172,20 +172,17 @@ def evaluator_toggle_active(eid):
 @app.route('/admin/evaluator/<int:eid>/edit', methods = ['POST', 'GET'])
 # @login_required
 def evaluator_edit(eid):
-    print(f'evaluator_edit({eid})')
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
     e = db.fetch_evaluator(eid)
     if not e:
-        print('not e')
         return redirect(url_for('admin'))
 
     if request.method != 'POST':
         g = db.fetch_groups(current_user.tid)
         return render_template("admin/specform.html", evaluator=e, groups=g)
 
-    print('POST')
     required = [ 'name', 'group', 'enabled' ]
     for r in required:
         if r not in request.form:
@@ -199,16 +196,9 @@ def evaluator_edit(eid):
         delete(e.file)
         e.file = fname
 
-    print('request.form ', request.form)
     e.name = request.form['name']
     e.groupId = int(request.form['group'])
     e.active = str2bool(request.form['enabled'])
-    print('e: ', e)
-
-    # statement = db.Evaluator.update().\
-    #     values(
-    #     ).\
-    #     where(db.Evaluator.id == eid)
     db.get_db().session.commit()
 
     return redirect(url_for('admin'))
@@ -315,12 +305,6 @@ def test():
 #end def
 
 
-# @app.route('/hello/<name>')
-# def hello(name):
-    # return f'Hello {name}!'
-#end def
-
-
 
 def dumptemp(data):
     fd, path = tempfile.mkstemp(prefix='progeval_', suffix='.ext', dir=UPLOAD_FOLDER)
@@ -334,7 +318,6 @@ def dumptemp(data):
 
 def evaluate(specs, source):
     begin_clean_old_reports()
-    # specs = os.path.join(SPECSF_FOLDER, f'{specs}.xml')
     specs = os.path.join(SPECSF_FOLDER, specs)
     if not os.path.isfile(specs):
         return None
@@ -346,12 +329,9 @@ def evaluate(specs, source):
     os.chdir(os.path.dirname(__file__))
     cwd = os.getcwd()
     if p.returncode != 0:
-        # return f'\n\ncwd: {cwd}\nretcode: {p.returncode} \nstdout: {o}\nstderr: {e}\n'
         return None
     if not os.path.isfile(ofname):
-        # return f'\n\ncwd: {cwd}\n\nstdout: {o}\nstderr: {e}\n{ofname} does not exist\n'
         return None
-    # return f'stdout: {o}\nstderr: {e}\n'
     return ofname
 #end def
 
