@@ -7,10 +7,11 @@ then
 	virtualenv -p python3 env
 fi
 source env/bin/activate
-pip install flask flask-login
-pip install -r requirements.txt
+pip install flask flask-login flask-sqlalchemy \
+            SQLAlchemy werkzeug
 
-chmod g+s .
+sudo chown -R :www-data .
+sudo chmod g+s .
 mkdir -p \
 	logs \
 	specfiles \
