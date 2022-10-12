@@ -38,17 +38,9 @@ def execute(exefile, args=[]):
     eargs = [exefile]
     eargs.extend([str(a) for a in args])
     proc = sp.Popen(eargs, stdout=sp.PIPE, stderr=sp.PIPE)
-    # try:
     out, err = proc.communicate()
     out = out.decode("utf-8")
     err = err.decode("utf-8")
-    # except sp.TimeoutExpired:
-    #   proc.kill()
-    #   out, err = proc.communicate(timeout=timeout)
-    #   return None, None, None
-    # except:
-    #   out = None
-    #   err = None
     return out, err, proc
 # end def
 
@@ -271,12 +263,6 @@ def eval():
             return render_template("form.html", results=sr)
     except:
         return render_template("error.html", traceback=traceback.format_exc())
-#end def
-
-
-
-# @app.route('/', methods = ['POST', 'GET'])
-# def application():
 #end def
 
 
