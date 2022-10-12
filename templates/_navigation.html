@@ -5,19 +5,38 @@
 	<!-- <div class="right"></div> -->
 
 {% if current_user.is_authenticated %}
-	<div>
+	<div class="center">
 		¡Hola {{ current_user.name.split(' ')[0] }}!
 	</div>
 {% endif %}
 
-	<div>
 {% if not current_user.is_authenticated %}
+	<div style="padding-right: 0.5em;">
 		<a href="/admin">
 			Acceso Profesor
-{% else %}
-		<a href="/admin/logout">
-			Cerrar sesión
-{% endif %}
 		</a>
 	</div>
+{% else %}
+	<nav class="right">
+		<div class="dropdown">
+			<div class="dropdown-button">Menú Profesor</div>
+			<div class="dropdown-content">
+				<div>
+					<a href="/">Inicio</a>
+				</div>
+				<div>
+					<a href="/admin">Mis evaluadores</a>
+				</div>
+				<div>
+					<a href="/admin/evaluator/new">Crear evaluador</a>
+				</div>
+
+				<div class="separator"></div>
+				<div>
+					<a href="/admin/logout">Cerrar sesión</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+{% endif %}
 </aside>
