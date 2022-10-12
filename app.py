@@ -206,6 +206,61 @@ def evaluator_edit(eid):
 
 
 
+@app.route('/admin/group/new', methods = ['POST', 'GET'])
+# @login_required
+def group_new():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    if request.method != 'POST':
+        return render_template("admin/group.html")
+
+    required = [ 'gsubject', 'gnum' ]
+    for r in required:
+        if r not in request.form:
+            return flask.abort(400)
+
+    g = db.Group(
+        teacherId=current_user.tid,
+        subject=request.form['gsubject'],
+        number=int(request.form['gnum'])
+    )
+    db.get_db().session.add(g)
+    db.get_db().session.commit()
+
+    return redirect(url_for('admin'))
+#end def
+
+
+
+@app.route('/admin/group/<int:group_id>', methods = ['POST', 'GET'])
+@app.route('/admin/group/<int:group_id>/edit', methods = ['POST', 'GET'])
+# @login_required
+def group_edit(group_id):
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    g = db.fetch_group(group_id)
+    if not g:
+        return redirect(url_for('admin'))
+
+    if request.method != 'POST':
+        return render_template("admin/group.html", group=g)
+
+    required = [ 'gsubject', 'gnum' ]
+    for r in required:
+        if r not in request.form:
+            return flask.abort(400)
+
+    g.subject=request.form['gsubject']
+    g.number=int(request.form['gnum'])
+    db.get_db().session.commit()
+
+    return redirect(url_for('admin'))
+#end def
+
+
+
 @app.route('/group/<int:group_id>')
 def upload_code(group_id):
     g = db.fetch_group(group_id)

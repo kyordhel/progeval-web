@@ -1,0 +1,94 @@
+{# templates/specform.html #}
+{% extends "base.html" %}
+{% block content %}
+
+{% if evaluator %}
+<div class="w600px center flex" style="margin-bottom: 1em">
+	<div class="left">
+		<button class="fancy" onclick="window.location.href='admin/'">
+			Volver
+		</button>
+	</div>
+</div>
+{% endif %}
+
+
+
+<form method="post" enctype="multipart/form-data"
+class="w600px center table2c"
+onsubmit="return doSubmit();">
+	<div class="small break" style="text-align: center;">
+		Los campos marcados con * son obligatorios
+	</div>
+	<div class=break>&nbsp;</div>
+	<!-- <div class=break></div> -->
+
+	<label class="cell">Asignatura: *</label>
+	<div class="cell-wide">
+		<input type="text" name="gsubject"
+			id="gsubject"  class="fillh"
+			{% if group %}
+			value="{{group.subject}}"
+			{% endif %}
+			onchange="checkSubmit();" oninput="checkSubmit();"/>
+	</div>
+	<div class=break></div>
+
+	<label class="cell">Número: *</label>
+	<div class="cell-wide">
+		<input type="text" name="gnum"
+			id="gnum"  class="fillh"
+			{% if group %}
+			value="{{group.number}}"
+			{% endif %}
+			onchange="checkSubmit();" oninput="checkSubmit();"/>
+	</div>
+	<div class=break></div>
+
+	<div class="left">
+		<input type="reset" autocomplete="off" value="Reiniciar"
+			id="btnreset" class="left"/>
+	</div>
+	<div class="right">
+		<input type="submit" disabled autocomplete="off"
+		{% if group %}
+		value="Actualizar"
+		{% else %}
+		value="Crear"
+		{% endif %}
+			id="btnsubmit" class="right"/>
+	</div>
+</form>
+
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script language="javascript">
+<!--
+function checkForm(){
+	re = /^([0-9]{1,})$/;
+	if(
+		(document.getElementById('gsubject').value.trim().length < 3) ||
+		!re.test(document.getElementById('gnum').value)
+	) return false;
+	return true;
+}
+
+function checkSubmit(){
+	document.getElementById('btnsubmit').disabled = !checkForm();
+}
+
+function doSubmit(){
+	if(!checkForm()) return false;
+	document.getElementById('btnsubmit').disabled=true;
+	return true;
+}
+//-->
+{% if group %}
+checkSubmit();
+{% endif %}
+</script>
+{% endblock scripts %}

@@ -24,9 +24,21 @@
 	<tbody>
 	{% for e in evaluators %}
 		<tr>
-			<td class="left">{{ e.name }}</td>
-			<td>{{ e.group.subject }}</td>
-			<td>{{ e.group.number }}</td>
+			<td class="left">
+				<a href="/admin/evaluator/{{ e.id }}/edit">
+					{{ e.name }}
+				</a>
+			</td>
+			<td>
+				<a href="/admin/group/{{ e.group.id }}/edit">
+					{{ e.group.subject }}
+				</a>
+			</td>
+			<td>
+				<a href="/admin/group/{{ e.group.id }}/edit">
+					{{ e.group.number }}
+				</a>
+			</td>
 			<td style="padding: 0.25em 0 0 0">
 				<button class="imagebutton"
 					onclick="toggleactive({{ e.id }});">
@@ -86,15 +98,15 @@ function showdeletedialog(eid){
 }
 
 function toggleactive(eid){
-	window.location.href=`admin/evaluator/${eid}/toggle`;
+	window.location.href=`/admin/evaluator/${eid}/toggle`;
 }
 
 function downloadxml(eid){
-	window.location.href=`admin/evaluator/${eid}/download`;
+	window.location.href=`/admin/evaluator/${eid}/download`;
 }
 
 function editevaluator(eid){
-	window.location.href=`admin/evaluator/${eid}/edit`;
+	window.location.href=`/admin/evaluator/${eid}/edit`;
 }
 //-->
 </script>
