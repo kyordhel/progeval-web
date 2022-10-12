@@ -4,7 +4,7 @@
 
 if [ ! -d "env" ]
 then
-	virtualenv -p python3.8 env
+	virtualenv -p python3 env
 fi
 source env/bin/activate
 pip install flask flask-login
