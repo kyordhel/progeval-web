@@ -1,5 +1,6 @@
 import db
 import flask
+import hashlib
 import flask_login
 from urllib.parse import urlparse, urljoin
 
@@ -67,7 +68,9 @@ class User():
 	@staticmethod
 	def login(username, password):
 		t = db.fetch_teacher_by_username(username)
-		if t.password != password:
+		sha1 = hashlib.sha1(password.encode('utf-8'))
+		pwdsha = sha1.hexdigest()
+		if t.password != pwdsha:
 			return User(None)
 		u = User(t)
 		flask_login.login_user(u, remember=True)
