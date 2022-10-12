@@ -23,11 +23,12 @@ import werkzeug as wz
 
 # Create app
 app = Flask(__name__)
+# Secure app
 set_secret_key(app)
+# Setup database
 db.setup(app)
+# Setup login manager
 lgnman.setup(app)
-
-# setup login manager
 
 
 with app.app_context():
@@ -123,6 +124,7 @@ def evaluator_delete(eid):
 
     e = db.fetch_evaluator(eid)
     if e:
+        delete(e.file)
         db.get_db().session.delete(e)
         db.get_db().session.commit()
     return redirect(url_for('admin'))
@@ -202,6 +204,7 @@ def evaluator_edit(eid):
         fname = make_random_name('.xml')
         fpath = os.path.join(SPECSF_FOLDER, fname)
         f.save(fpath)
+        delete(e.file)
         e.file = fname
 
     print('request.form ', request.form)
@@ -344,6 +347,7 @@ def dumptemp(data):
 
 
 def evaluate(specs, source):
+    begin_clean_old_reports()
     # specs = os.path.join(SPECSF_FOLDER, f'{specs}.xml')
     specs = os.path.join(SPECSF_FOLDER, specs)
     if not os.path.isfile(specs):
@@ -370,8 +374,11 @@ def evaluate(specs, source):
 def delete(file):
     if not isinstance(file, str):
         return
-    if os.path.exists(file):
-        os.remove(file)
+    try:
+        if os.path.exists(file):
+            os.remove(file)
+    except:
+        pass
 #end def
 
 
@@ -382,6 +389,31 @@ def str2bool(s):
     if s.lower() in ['false', '0']:
         return False
     return True
+#end def
+
+
+
+def begin_clean_old_reports():
+    import threading
+    t = threading.Thread(target=clean_old_reports)
+    t.start()
+#end def
+
+
+
+def clean_old_reports():
+    import datetime, time
+    now = int(time.time())
+    deadline = now - 3600 * 24
+    for f in os.listdir(REPORT_FOLDER):
+        path = os.path.join(REPORT_FOLDER, f)
+        path = os.path.abspath(path)
+        print(f'{path} is ' +
+            datetime.date.fromtimestamp(os.path.getmtime(path))\
+            .strftime('%Y-%m-%d')
+        )
+        if os.path.getmtime(path) < deadline:
+            delete(path)
 #end def
 
 
@@ -401,4 +433,4 @@ def make_random_name(suffix):
 if __name__ == '__main__':
     # app.run()
     app.run(host='0.0.0.0', port=30006, debug=True)
-
+    begin_clean_old_reports()
