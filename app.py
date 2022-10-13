@@ -391,9 +391,9 @@ def evaluate(specs, source):
     os.chdir(os.path.dirname(__file__))
     cwd = os.getcwd()
     if p.returncode != 0:
-        return 'Failed to execute evaluator\n' +\
-            f'python3 ' + '\n  '.join(args) + \
-            f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
+        return 'Failed to execute evaluator\n' #+\
+            # f'python3 ' + '\n  '.join(args) + \
+            # f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
         return None
     if not os.path.isfile(ofname):
         return 'Evaluator generated no file'
