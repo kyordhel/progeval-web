@@ -48,6 +48,8 @@ def execute(exefile, args=[]):
 
 @app.route('/')
 def root():
+    if not current_user.is_authenticated:
+        return render_template("index.html", groups=db.fetch_groups_we())
     return render_template("index.html", groups=db.fetch_groups())
 #end def
 

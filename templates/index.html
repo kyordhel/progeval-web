@@ -8,12 +8,40 @@
 		onclick="window.location.href='/group/{{group.id}}'">
 			<aside class="course-num">{{ group.number }}</aside>
 			<article class="course-info">
-			<div class="fillh">Curso: {{ group.subject }}</div>
-			<div class="fillh">Grupo: {{ '%02d' % group.number }}</div>
-			<div class="fillh">Profesor: {{ group.teacher }}</div>
+				<div class="fillh">
+					Curso: {{ group.subject }}
+				</div>
+				<div class="fillh">
+					Grupo: {{ '%02d' % group.number }}
+				</div>
+				<div class="fillh">
+					Profesor: {{ group.teacher }}
+				</div>
+				<div class="fillh course-info-eval-count">
+					{{ group.evaluators|selectattr('active')|list|length }}
+					{% if current_user.is_authenticated %}
+						/ {{ group.evaluators|length }}
+					{% endif %}
+
+					{% if group.evaluators|selectattr('active')|list|length == 1 %}
+						evaluador
+					{% else %}
+						evaluadores
+					{% endif %}
+
+					{% if current_user.is_authenticated %}
+						activos
+					{% endif %}
+				</div>
 			</article>
 		</button>
 	{% endfor %}
+	{% if not groups or (groups|length < 1) %}
+	<div class="grayed" style="text-align: center;">
+		No existen evaluadores activos.<br>
+		Póngase en contacto con su profesor o regrese más tarde.
+	</div>
+	{% endif %}
 </article>
 
 {% endblock content %}

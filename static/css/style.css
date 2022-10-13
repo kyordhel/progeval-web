@@ -21,25 +21,6 @@ a:hover{
 	filter:             brightness(1.25);
 }
 
-.dropdown {
-	position:           relative;
-	display:            inline-block;
-}
-
-.dropdown-content {
-	display:            none;
-	position:           absolute;
-	background-color:   #f9f9f9;
-	min-width:          160px;
-	box-shadow:         0px 8px 16px 0px rgba(0,0,0,0.2);
-	padding:            12px 16px;
-	z-index:            1;
-}
-
-.dropdown:hover .dropdown-content {
-	display:            block;
-}
-
 .codeinput{
 	border:             1px solid gray;
 	min-height:         300px;
@@ -52,11 +33,16 @@ a:hover{
 	font-family:        monospace;
 }
 
+.grayed{
+	color:              #666;
+}
+
 [contenteditable=true]:empty::before {
 	content:            attr(placeholder);
 	color:              #666;
 	font-style:         italic;
 }
+
 [contenteditable=true]:focus:empty::before {
 	content:       "";
 }
@@ -238,16 +224,30 @@ a:hover{
 	text-align:         center;
 	z-index:            0;
 }
+
 .course-info{
 	color:              white;
 	text-align:         left;
-	padding:            10px 5px 5px 5px;
+	padding-top:        5px;
 	width:              100%;
 	position:           absolute;
 	bottom:             0;
 	border-radius:      0 0 5px 5px;
 	background-color:   rgba(0, 100, 0, 0.8);  /* DarkGreen = #006400 */
+}
 
+.course-info > *{
+	margin:             0;
+	padding:            0 5px;
+}
+
+.course-info-eval-count {
+	margin-top:         3px;
+	padding:            5px;
+	padding-bottom:     0;
+	border-radius:      0 0 5px 5px;
+	background-color:   rgba(0, 100, 0, 1);    /* DarkGreen = #006400 */
+	text-align:         center;
 }
 
 .zoom{

@@ -142,13 +142,34 @@ def fetch_group(gid):
 
 
 def fetch_groups(tid=None):
+	# if tid:
+	# 	groups = Group.query.order_by(
+	# 		Group.subject,
+	# 		Group.number
+	# 	).filter(Group.teacherId == tid).all()
+	# else:
+	# 	groups = Group.query.order_by(
+	# 		Group.subject,
+	# 		Group.number
+	# 	).all()
+	# return groups
+	groups = Group.query
 	if tid:
-		groups = Group.query.order_by(
+		groups = groups.filter(Group.teacherId == tid)
+	return groups.order_by(
 			Group.subject,
 			Group.number
-		).filter(Group.teacherId == tid).all()
-	else:
-		groups = Group.query.order_by(
+		).all()
+#end def
+
+
+
+def fetch_groups_we():
+	groups = Group.query\
+		.filter(
+			Group.evaluators.any(Evaluator.active)
+		)\
+		.order_by(
 			Group.subject,
 			Group.number
 		).all()
