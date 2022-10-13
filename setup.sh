@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Requires libapache2-mod-wsgi-py3
+# Requires libapache2-mod-wsgi-py3 texlive-full pdftk
 
 if [ ! -d "env" ]
 then

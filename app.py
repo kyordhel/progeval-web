@@ -5,6 +5,7 @@ import os
 import sys
 import uuid
 import tempfile
+import evaluator
 import traceback
 import subprocess as sp
 
@@ -31,8 +32,8 @@ db.setup(app)
 lgnman.setup(app)
 
 
-with app.app_context():
-    print(db.Group.query.all())
+# with app.app_context():
+    # print(db.Group.query.all())
 
 def execute(exefile, args=[]):
     eargs = [exefile]
@@ -298,6 +299,7 @@ def eval():
             return redirect("/", code=302)
         else:
             path = dumptemp(request.form['codetext'])
+            path = fix_src_extension(evaluator.file, path)
             sr+= f'Created sourcecode file: {path}\n'
 
         report = evaluate(specs, path)
@@ -366,7 +368,7 @@ def test():
 
 
 def dumptemp(data):
-    fd, path = tempfile.mkstemp(prefix='progeval_', suffix='.ext', dir=UPLOAD_FOLDER)
+    fd, path = tempfile.mkstemp(prefix='progeval_', suffix='', dir=UPLOAD_FOLDER)
     with open(path, 'w') as f:
         f.write(data)
     os.close(fd)
@@ -389,14 +391,39 @@ def evaluate(specs, source):
     os.chdir(os.path.dirname(__file__))
     cwd = os.getcwd()
     if p.returncode != 0:
-        return 'Failed to execute evaluator\n'
-        #     f'python3 ' +\n'.join(args) + \
-        #     f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
-        # return None
+        return 'Failed to execute evaluator\n' +\
+            f'python3 ' + '\n  '.join(args) + \
+            f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
+        return None
     if not os.path.isfile(ofname):
         return 'Evaluator generated no file'
         # return None
     return ofname
+#end def
+
+
+
+def fix_src_extension(specs, srcpath):
+    if not isinstance(srcpath, str):
+        return srcpath
+
+    specs = os.path.join(SPECSF_FOLDER, specs)
+    if not os.path.isfile(specs):
+        return srcpath
+
+    s = evaluator.specs_from_xml(specs)
+    ext = {
+        'c'       : 'c',
+        'c++'     : 'cpp',
+        'c#'      : 'cs',
+        'java'    : 'java',
+        'python'  : 'py',
+    }.get(s.language.lower(), None)
+    if ext is None:
+        return srcpath
+    destpath = srcpath[:-4] + f'.{ext}'
+    os.rename(srcpath, destpath)
+    return destpath
 #end def
 
 
