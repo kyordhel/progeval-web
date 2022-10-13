@@ -288,6 +288,7 @@ def eval():
         if not evaluator:
             return redirect("/", code=302)
         specs = evaluator.file
+        sr = 'Evaluator: {}\n'.format(evaluator.name)
         if len(request.files) > 0 and 'codefile' in request.files:
             f = request.files['codefile']
             path = os.path.join(UPLOAD_FOLDER, wz.utils.secure_filename(f.filename))
@@ -297,17 +298,18 @@ def eval():
             return redirect("/", code=302)
         else:
             path = dumptemp(request.form['codetext'])
-            sr+= f'Created sourcecode file {path}\n'
+            sr+= f'Created sourcecode file: {path}\n'
 
         report = evaluate(specs, path)
         delete(path)
 
-        if (report is not None) and os.path.isfile(report):
+        if isinstance(report, str) and os.path.isfile(report):
             uri = url_for('static', filename='reports/' + os.path.basename(report))
             return render_template("report.html", reporturi=uri)
         else:
-            sr+= f'{report}\n'
-            return render_template("form.html", results=sr)
+            sr+= f'{report}\n' if report else 'Failed to evaluate uploaded code'
+            g = db.fetch_group(evaluator.groupId)
+            return render_template("form.html", group=g, results=sr)
     except:
         return render_template("error.html", traceback=traceback.format_exc())
 #end def
@@ -377,7 +379,8 @@ def evaluate(specs, source):
     begin_clean_old_reports()
     specs = os.path.join(SPECSF_FOLDER, specs)
     if not os.path.isfile(specs):
-        return None
+        return 'Evaluator not found'
+        # return None
     ofname = uuid.uuid4().hex
     ofname = os.path.join(REPORT_FOLDER, f'{ofname}.pdf')
 
@@ -386,9 +389,13 @@ def evaluate(specs, source):
     os.chdir(os.path.dirname(__file__))
     cwd = os.getcwd()
     if p.returncode != 0:
-        return None
+        return 'Failed to execute evaluator\n'
+        #     f'python3 ' +\n'.join(args) + \
+        #     f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
+        # return None
     if not os.path.isfile(ofname):
-        return None
+        return 'Evaluator generated no file'
+        # return None
     return ofname
 #end def
 
