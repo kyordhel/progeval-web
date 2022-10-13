@@ -302,7 +302,7 @@ def eval():
         report = evaluate(specs, path)
         delete(path)
 
-        if os.path.isfile(report):
+        if report and os.path.isfile(report):
             uri = url_for('static', filename='reports/' + os.path.basename(report))
             return render_template("report.html", reporturi=uri)
         else:
