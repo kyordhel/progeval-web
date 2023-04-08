@@ -1,44 +1,14 @@
 {# templates/_navigation.html #}
 
-<aside class="nav-bar">
-	<div>© 2022 — FI UNAM</div>
-	<!-- <div class="right"></div> -->
-
-{% if current_user.is_authenticated %}
-	<div class="center">
-		¡Hola {{ current_user.name.split(' ')[0] }}!
-	</div>
-{% endif %}
-
 {% if not current_user.is_authenticated %}
-	<div style="padding-right: 0.5em;">
-		<a href="/admin">
-			Acceso Profesor
-		</a>
-	</div>
+	<li><a href="/admin"><div>Acceso profesor</div></a></li>
 {% else %}
-	<nav class="right">
-		<div class="dropdown">
-			<div class="dropdown-button">Menú Profesor</div>
-			<div class="dropdown-content">
-				<div>
-					<a href="/">Inicio</a>
-				</div>
-				<div>
-					<a href="/admin">Mis evaluadores</a>
-				</div>
-				<div>
-					<a href="/admin/evaluator/new">Crear evaluador</a>
-				</div>
-                <div>
-                    <a href="/admin/group/new">Agregar grupo</a>
-                </div>
-				<div class="separator"></div>
-				<div>
-					<a href="/admin/logout">Cerrar sesión</a>
-				</div>
-			</div>
-		</div>
-	</nav>
+	<li><a href="#"><div>Menú Profesor<img src="{{ url_for('static', filename='images/icons/mainsubmenured2.png') }}" alt="submenu"></div></a>
+		<ul>
+			<li><a href="/admin"><div>Mis evaluadores</div></a></li>
+			<li><a href="/admin/evaluator/new"><div>Crear evaluador</div></a></li>
+			<li><a href="/admin/group/new"><div>Agregar grupo</div></a></li>
+			<li><a href="/admin/logout"><div>Cerrar sesión</div></a></li>
+		</ul>
+	</li>
 {% endif %}
-</aside>

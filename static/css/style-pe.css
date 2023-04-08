@@ -1,13 +1,18 @@
-*{
+
+/**{*/
+.pe-content *{
 	box-sizing:         border-box;
+	line-height:        normal;
 	font-family:        Helvetica, sans-serif;
 }
 
-body{
-	margin:             0;
+/*body{*/
+.pe-content{
+	margin:             1em 0;
 	padding:            0;
 	overflow:           hidden;
-	background-color:   rgba(0,0,0,0.1);
+/*	background-color:   rgba(0,0,0,0.1);*/
+	width:              100%;
 }
 
 a{
@@ -20,6 +25,7 @@ a:hover{
 	text-decoration:    underline;
 	filter:             brightness(1.25);
 }
+
 
 .codeinput{
 	border:             1px solid gray;
@@ -85,10 +91,15 @@ a:hover{
 	flex:               0 1 0;
 }
 
-.cell{
+.cell, .cell-wide{
 	word-wrap:          nowrap;
 	white-space:        nowrap;
 	margin:             4px 4px;
+	text-align:         left;
+	line-height:        normal;
+	text-transform:     none;
+	font-weight:        normal;
+/*	font-family:        Helvetica, sans-serif;*/
 }
 
 .row{
@@ -168,14 +179,15 @@ a:hover{
 	overflow-y:         auto;
 }
 
+/*
 .container{
 	margin:             0 auto;
-	/*padding:            125px 0;*/
 	padding:            0;
 	min-width:          600px;
 	max-width:          800px;
-	/*overflow-y:         visible;*/
 }
+*/
+
 
 .courses-container{
 	margin:             25px;

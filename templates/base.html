@@ -1,32 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="es">
 <head>
-	<meta charset="utf-8">
-	<title>Progeval</title>
-	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-	<link href="{{ url_for('static', filename='css/modal.css') }}" rel="stylesheet" />
-	<link href="{{ url_for('static', filename='css/dropdown.css') }}" rel="stylesheet" />
-	<script src="{{ url_for('static', filename='js/modal.js')  }}?id=
-		{{ '%d' % ( range(1, 1000)| random ) }}"/></script>
+	{% include "_head-fi.html" %}
 </head>
 
-<body>
-{% include "_navigation.html" %}
-<aside class="banner">
-</aside>
-<div class="scrollable">
-	<div class="container">
-		<header>
-			<h1 class="pevaltitle">
-				Progeval
-			</h1>
-		</header>
-		{% block content %}
-		{% endblock content %}
-	</div>
-</div>
+<body class="stretched">
+	{% include "_fbapi-fi.html" %}
 
-{% include "_modal.html" %}
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header
+		============================================= -->
+		{% include "_header-fi.html" %}
+
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="pe-content">
+				{% block content %}
+				{% endblock content %}
+			</div>
+		</section><!-- #content end -->
+
+	 	<!-- Footer
+		============================================= -->
+		{% include "_footer-fi.html" %}
+	</div><!-- #wrapper end 'images/footer-bg.jpg'-->
+
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script type="text/javascript" src="{{ url_for('static', filename='js/functions.js')   }}"></script>
+
+	{% include "_modal.html" %}
 </body>
 </html>
 {% block scripts %}
