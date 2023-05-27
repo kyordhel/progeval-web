@@ -13,6 +13,7 @@
 !requirements.txt
 !run.sh
 !setup.sh
+!readme.MD
 
 # And these file types
 !*.py
