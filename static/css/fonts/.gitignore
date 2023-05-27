@@ -5,7 +5,7 @@
 !.gitignore
 
 # And these file types
-!*.css
-
-# And these subdirectories
-!fonts/
+!*.eot
+!*.ttf
+!*.woff
+!*.svg
