@@ -385,12 +385,12 @@ def evaluate(specs, source):
         # return None
     ofname = uuid.uuid4().hex
     ofname = os.path.join(REPORT_FOLDER, f'{ofname}.pdf')
+    # os.chdir(os.path.dirname(__file__))
 
     args = [ '-m', 'evaluator', specs, source, '--output', ofname]
     o, e, p = execute('python3', args)
-    os.chdir(os.path.dirname(__file__))
-    cwd = os.getcwd()
     if p.returncode != 0:
+        # cwd = os.getcwd()
         return 'Failed to execute evaluator\n' #+\
             # f'python3 ' + '\n  '.join(args) + \
             # f'\ncwd: {os.getcwd()}\ncout: {o}\ncerr: {e}'
