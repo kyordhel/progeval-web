@@ -385,7 +385,7 @@ def evaluate(specs, source):
         # return None
     ofname = uuid.uuid4().hex
     ofname = os.path.join(REPORT_FOLDER, f'{ofname}.pdf')
-    # os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.dirname(__file__))
 
     args = [ '-m', 'evaluator', specs, source, '--output', ofname]
     o, e, p = execute('python3', args)
