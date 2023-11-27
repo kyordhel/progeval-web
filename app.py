@@ -369,7 +369,7 @@ def test():
 
 def dumptemp(data):
     fd, path = tempfile.mkstemp(prefix='progeval_', suffix='', dir=UPLOAD_FOLDER)
-    with open(path, 'w') as f:
+    with open(path, 'w', encoding='utf-8') as f:
         f.write(data)
     os.close(fd)
     return path
